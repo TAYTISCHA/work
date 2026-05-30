@@ -14,7 +14,7 @@ const CONFIG = {
 
   // ── Google Apps Script ────────────────────
   // TODO: แทนที่ด้วย Deployed GAS Web App URL ของคุณ
-  GAS_URL: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
+  GAS_URL: "https://script.google.com/macros/s/AKfycby0BqkSqpUKLPxFk-iuTtOoBA9TD0p_1YfI7tkPT1KdryvZl6IbZDFFkXzbwjeY-mYbUg/exec",
 
   // ── Session ───────────────────────────────
   SESSION_KEY: "cv_session",
