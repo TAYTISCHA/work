@@ -8,7 +8,7 @@
 
 // ── CONFIG ──────────────────────────────────────
 const CONFIG = {
-  SHEET_ID:       "14qZOsrqHg4yVRDEFIXC8fsYJ3QvIn1SCy3xxMMD0tnk",
+  SHEET_ID:       "10xICUUyo6doqtVbTsg9maeRTROw3QtjGwwJs6aADd2U",
   DRIVE_FOLDER_ID: "1mt6hrJgSVnWmZmpmJ1cPtWSRmy49tKp7",
   PAGE_SIZE:      18,
 };
