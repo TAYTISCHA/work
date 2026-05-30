@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CheatVault — KMUTT CSE</title>
+  <script src="public/js/config.js"></script>
+  <script>
+    // Redirect to dashboard if logged in, otherwise login
+    (function () {
+      try {
+        const raw = localStorage.getItem("cv_session");
+        if (raw) {
+          const s = JSON.parse(raw);
+          if (s && Date.now() < s.expiresAt) {
+            window.location.replace(s.role === "senior" ? "/admin.html" : "/dashboard.html");
+            return;
+          }
+        }
+      } catch {}
+      window.location.replace("/login.html");
+    })();
+  </script>
+</head>
+<body></body>
+</html>

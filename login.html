@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ — CheatVault KMUTT</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+  <link rel="stylesheet" href="public/css/login.css" />
+</head>
+<body>
+  <div class="login-page" id="login-page">
+
+    <!-- ── Brand Panel ── -->
+    <div class="login-brand">
+      <div class="brand-logo">
+        <div class="brand-logo-icon">📚</div>
+        <div>
+          <div class="brand-logo-text">CheatVault</div>
+          <div class="brand-logo-sub">KMUTT · วิทยาการคอมพิวเตอร์</div>
+        </div>
+      </div>
+
+      <h1 class="brand-heading">
+        คลังชีทเรียน<br />
+        สาย<span>รหัส</span> ✦
+      </h1>
+      <p class="brand-desc">
+        รวบรวมชีทบันทึก, ข้อสอบเก่า, และเอกสารประกอบการเรียน
+        โดยรุ่นพี่ CSE · KMUTT พร้อมแชร์ให้รุ่นน้องทุกคน
+      </p>
+
+      <div class="brand-features">
+        <div class="brand-feature">
+          <div class="brand-feature-dot"></div>
+          Preview & Download PDF ได้เลย
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-dot"></div>
+          จัดเรียงตามวิชา, ปี, และหมวดหมู่
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-dot"></div>
+          Bookmark ไฟล์ที่ชอบได้
+        </div>
+        <div class="brand-feature">
+          <div class="brand-feature-dot"></div>
+          รองรับ Dark Mode & Mobile
+        </div>
+      </div>
+
+      <div class="brand-footer">
+        ©️ 2024 Computer Science Engineering, KMUTT<br />
+        พัฒนาโดยรุ่นพี่สาย Tech 🧑‍💻
+      </div>
+    </div>
+
+    <!-- ── Form Panel ── -->
+    <div class="login-form-panel">
+      <div class="login-form-inner animate-in">
+        <h2 class="login-form-title">ยินดีต้อนรับ 👋</h2>
+        <p class="login-form-sub">เข้าสู่ระบบด้วยรหัสนักศึกษาของคุณ</p>
+
+        <div id="login-error" class="login-error" role="alert"></div>
+
+        <div class="login-form-fields">
+          <div class="input-group">
+            <label class="input-label" for="student-id">รหัสนักศึกษา</label>
+            <input
+              class="input"
+              id="student-id"
+              type="text"
+              placeholder="เช่น 65090500001"
+              autocomplete="username"
+              inputmode="numeric"
+              maxlength="11"
+            />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" for="password">รหัสผ่าน</label>
+            <div class="input-password-wrap">
+              <input
+                class="input"
+                id="password"
+                type="password"
+                placeholder="รหัสผ่านที่ได้รับจากรุ่นพี่"
+                autocomplete="current-password"
+              />
+              <span class="toggle-password" id="toggle-pw" title="แสดง/ซ่อนรหัสผ่าน">👁️</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-login" id="login-btn" type="button">
+          เข้าสู่ระบบ
+        </button>
+
+        <div class="login-divider">หรือ</div>
+
+        <div class="login-meta">
+          ยังไม่ได้รับรหัสผ่าน?<br />
+          ติดต่อรุ่นพี่ CSE ผ่าน LINE Group ของคณะ 💬
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="public/js/config.js"></script>
+  <script src="public/js/ui.js"></script>
+  <script src="public/js/auth.js"></script>
+  <script src="public/js/drive.js"></script>
+  <script src="public/js/pages/login.js"></script>
+</body>
+</html>
