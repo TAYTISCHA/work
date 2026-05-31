@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — CheatVault KMUTT</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ── Sidebar Overlay (Mobile) ── -->
+    <div id="sidebar-overlay"></div>
+
+    <!-- ══════════════════════════════
+         NAVBAR
+    ══════════════════════════════ -->
+    <nav class="navbar">
+      <button class="btn-icon" id="sidebar-toggle" title="Toggle Sidebar">☰</button>
+      <div class="navbar-brand">
+        <div class="brand-dot"></div>
+        CheatVault
+        <span class="text-tertiary text-sm" style="font-weight:400">· KMUTT CSE</span>
+      </div>
+
+      <div class="navbar-spacer"></div>
+
+      <!-- Search (desktop) -->
+      <div class="search-wrap" style="max-width:280px" id="navbar-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="input" id="global-search" type="text" placeholder="ค้นหาไฟล์, วิชา..." />
+      </div>
+
+      <div class="navbar-actions">
+        <button class="btn-icon" id="theme-toggle" title="Toggle Dark Mode">🌙</button>
+        <button class="btn-icon" id="bookmark-btn" title="Bookmarks">🔖</button>
+        <button class="btn-icon" id="user-menu-btn" title="บัญชีผู้ใช้">👤</button>
+      </div>
+    </nav>
+
+    <!-- ══════════════════════════════
+         SIDEBAR
+    ══════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">หน้าหลัก</div>
+        <div class="sidebar-item active" data-page="home">
+          <span class="item-icon">🏠</span> หน้าแรก
+        </div>
+        <div class="sidebar-item" data-page="recent">
+          <span class="item-icon">🕐</span> ดูล่าสุด
+        </div>
+        <div class="sidebar-item" data-page="bookmarks">
+          <span class="item-icon">🔖</span> Bookmarks
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">ปีการศึกษา</div>
+        <div class="sidebar-item" data-filter-year="1">
+          <span class="item-icon">1️⃣</span> ปี 1
+        </div>
+        <div class="sidebar-item" data-filter-year="2">
+          <span class="item-icon">2️⃣</span> ปี 2
+        </div>
+        <div class="sidebar-item" data-filter-year="3">
+          <span class="item-icon">3️⃣</span> ปี 3
+        </div>
+        <div class="sidebar-item" data-filter-year="4">
+          <span class="item-icon">4️⃣</span> ปี 4
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">หมวดหมู่</div>
+        <div class="sidebar-item" data-filter-cat="lecture">
+          <span class="item-icon">📖</span> บรรยาย
+        </div>
+        <div class="sidebar-item" data-filter-cat="lab">
+          <span class="item-icon">🧪</span> แลป
+        </div>
+        <div class="sidebar-item" data-filter-cat="midterm">
+          <span class="item-icon">📝</span> กลางภาค
+        </div>
+        <div class="sidebar-item" data-filter-cat="final">
+          <span class="item-icon">🎯</span> ปลายภาค
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-chip" id="user-chip">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div class="user-info">
+            <div class="user-name" id="user-name">กำลังโหลด...</div>
+            <div class="user-role" id="user-role">Junior</div>
+          </div>
+          <button class="btn-icon" id="logout-btn" title="ออกจากระบบ" style="margin-left:auto">↩</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ══════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════ -->
+    <main class="main-content" id="main-content">
+      <div class="page-body">
+
+        <!-- Announcements -->
+        <div id="announcements-container"></div>
+
+        <!-- Page: Home -->
+        <div id="page-home">
+          <div class="page-header">
+            <h1 class="page-title" id="greeting">สวัสดี 👋</h1>
+            <p class="page-sub">เลือกดูไฟล์หรือค้นหาด้วยชื่อวิชา</p>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar" id="filter-bar">
+            <span style="font-size:12px;font-weight:600;color:var(--text-tertiary)">กรอง:</span>
+            <div class="filter-chip active" data-filter="">ทั้งหมด</div>
+            <div class="filter-chip" data-filter="lecture">📖 บรรยาย</div>
+            <div class="filter-chip" data-filter="lab">🧪 แลป</div>
+            <div class="filter-chip" data-filter="midterm">📝 กลางภาค</div>
+            <div class="filter-chip" data-filter="final">🎯 ปลายภาค</div>
+          </div>
+
+          <!-- File Grid -->
+          <div class="file-grid" id="file-grid">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination"></div>
+        </div>
+
+        <!-- Page: Recent -->
+        <div id="page-recent" class="hidden">
+          <div class="page-header">
+            <h1 class="page-title">ดูล่าสุด 🕐</h1>
+            <p class="page-sub">ไฟล์ที่คุณเปิดดูล่าสุด</p>
+          </div>
+          <div class="file-grid" id="recent-grid"></div>
+        </div>
+
+        <!-- Page: Bookmarks -->
+        <div id="page-bookmarks" class="hidden">
+          <div class="page-header">
+            <h1 class="page-title">Bookmarks 🔖</h1>
+            <p class="page-sub">ไฟล์ที่คุณ Bookmark ไว้</p>
+          </div>
+          <div class="file-grid" id="bookmarks-grid"></div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ══════════════════════════════
+       PDF PREVIEW MODAL
+  ══════════════════════════════ -->
+  <div class="modal pdf-modal" id="pdf-modal">
+    <div class="modal-content">
+      <div class="pdf-modal-header">
+        <span style="font-size:18px">📄</span>
+        <span class="pdf-modal-title" id="pdf-modal-title">ชื่อไฟล์</span>
+        <button class="btn btn-ghost btn-sm" id="pdf-download-btn">⬇️ ดาวน์โหลด</button>
+        <button class="btn-icon" id="pdf-close-btn">✕</button>
+      </div>
+      <iframe class="pdf-iframe" id="pdf-iframe" src="" allow="fullscreen"></iframe>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="public/js/config.js"></script>
+  <script src="public/js/ui.js"></script>
+  <script src="public/js/auth.js"></script>
+  <script src="public/js/drive.js"></script>
+  <script src="public/js/app.js"></script>
+  <script src="public/js/components/profile-menu.js"></script>
+  <script src="public/js/pages/dashboard.js"></script>
+</body>
+</html>

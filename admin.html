@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — CheatVault KMUTT</title>
+  <link rel="stylesheet" href="public/css/style.css" />
+  <link rel="stylesheet" href="public/css/admin.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-overlay"></div>
+
+    <!-- ── Navbar ── -->
+    <nav class="navbar">
+      <button class="btn-icon" id="sidebar-toggle">☰</button>
+      <div class="navbar-brand">
+        <div class="brand-dot"></div>
+        CheatVault
+        <span class="tag" style="background:var(--accent-dim);color:var(--accent);margin-left:4px;font-size:10px">ADMIN</span>
+      </div>
+      <div class="navbar-spacer"></div>
+      <div class="navbar-actions">
+        <button class="btn-icon" id="theme-toggle">🌙</button>
+        <button class="btn btn-primary btn-sm" id="upload-btn">⬆️ Upload ไฟล์</button>
+      </div>
+    </nav>
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Admin</div>
+        <div class="sidebar-item active" data-page="overview">
+          <span class="item-icon">📊</span> ภาพรวม
+        </div>
+        <div class="sidebar-item" data-page="files">
+          <span class="item-icon">📁</span> จัดการไฟล์
+        </div>
+        <div class="sidebar-item" data-page="users">
+          <span class="item-icon">👥</span> ผู้ใช้งาน
+        </div>
+        <div class="sidebar-item" data-page="announcements">
+          <span class="item-icon">📢</span> ประกาศ
+        </div>
+        <div class="sidebar-item" data-page="analytics">
+          <span class="item-icon">📈</span> Analytics
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">ลิงก์ด่วน</div>
+        <div class="sidebar-item" onclick="window.open(CONFIG.ROUTES.DASHBOARD,'_blank')">
+          <span class="item-icon">👁️</span> ดูเหมือนรุ่นน้อง
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="user-name">Admin</div>
+            <div class="user-role">Senior 🔑</div>
+          </div>
+          <button class="btn-icon" id="logout-btn" title="ออกจากระบบ" style="margin-left:auto">↩</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Main ── -->
+    <main class="main-content">
+      <div class="page-body">
+
+        <!-- ── PAGE: OVERVIEW ── -->
+        <div id="page-overview">
+          <div class="page-header">
+            <h1 class="page-title">ภาพรวมระบบ 📊</h1>
+            <p class="page-sub">ข้อมูลสรุปคลังชีทเรียน KMUTT CSE</p>
+          </div>
+
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card reveal"><div class="stat-icon">📁</div><div class="stat-value" id="stat-files">—</div><div class="stat-label">ไฟล์ทั้งหมด</div></div>
+            <div class="stat-card reveal"><div class="stat-icon">👥</div><div class="stat-value" id="stat-users">—</div><div class="stat-label">ผู้ใช้งาน</div></div>
+            <div class="stat-card reveal"><div class="stat-icon">👁️</div><div class="stat-value" id="stat-views">—</div><div class="stat-label">การดูทั้งหมด</div></div>
+            <div class="stat-card reveal"><div class="stat-icon">⬇️</div><div class="stat-value" id="stat-downloads">—</div><div class="stat-label">Downloads</div></div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="card p-4">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold">กิจกรรมล่าสุด</h3>
+            </div>
+            <div id="recent-activity">
+              <div class="text-secondary text-sm">กำลังโหลด...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PAGE: FILES ── -->
+        <div id="page-files" class="hidden">
+          <div class="page-header flex items-center justify-between">
+            <div>
+              <h1 class="page-title">จัดการไฟล์ 📁</h1>
+              <p class="page-sub">Upload, ลบ, เปลี่ยนชื่อ และ Pin ไฟล์</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input class="input" id="admin-search" type="text" placeholder="ค้นหาไฟล์..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="file-grid" id="admin-file-grid"></div>
+          <div class="pagination" id="admin-pagination"></div>
+        </div>
+
+        <!-- ── PAGE: USERS ── -->
+        <div id="page-users" class="hidden">
+          <div class="page-header flex items-center justify-between">
+            <div>
+              <h1 class="page-title">ผู้ใช้งาน 👥</h1>
+              <p class="page-sub">จัดการรหัสผ่านและสิทธิ์การเข้าถึง</p>
+            </div>
+            <button class="btn btn-primary" id="add-user-btn">➕ เพิ่มผู้ใช้</button>
+          </div>
+
+          <div class="card">
+            <table class="data-table" id="users-table">
+              <thead>
+                <tr>
+                  <th>รหัสนักศึกษา</th>
+                  <th>ชื่อ</th>
+                  <th>สิทธิ์</th>
+                  <th>สถานะ</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <tr><td colspan="5" class="text-secondary text-sm" style="text-align:center;padding:32px">กำลังโหลด...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── PAGE: ANNOUNCEMENTS ── -->
+        <div id="page-announcements" class="hidden">
+          <div class="page-header flex items-center justify-between">
+            <div>
+              <h1 class="page-title">ประกาศ 📢</h1>
+              <p class="page-sub">สร้างประกาศที่จะแสดงบน Dashboard ของรุ่นน้อง</p>
+            </div>
+            <button class="btn btn-primary" id="create-announcement-btn">➕ ประกาศใหม่</button>
+          </div>
+
+          <div id="announcements-list"></div>
+        </div>
+
+        <!-- ── PAGE: ANALYTICS ── -->
+        <div id="page-analytics" class="hidden">
+          <div class="page-header">
+            <h1 class="page-title">Analytics 📈</h1>
+            <p class="page-sub">ไฟล์ที่ได้รับความนิยม และสถิติการใช้งาน</p>
+          </div>
+          <div id="analytics-content"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ══════════ MODALS ══════════ -->
+
+  <!-- Upload Modal -->
+  <div class="modal" id="upload-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">⬆️ Upload ไฟล์ PDF</div>
+        <button class="btn-icon" onclick="UI.closeModal('upload-modal')">✕</button>
+      </div>
+
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone-icon">📄</div>
+        <div class="drop-zone-title">ลากไฟล์มาวางที่นี่</div>
+        <div class="drop-zone-sub">หรือคลิกเพื่อเลือกไฟล์ PDF</div>
+      </div>
+      <input type="file" id="file-input" accept=".pdf" multiple style="display:none" />
+
+      <div class="mt-4" id="upload-form" style="display:none">
+        <div style="display:grid;gap:14px">
+          <div class="input-group">
+            <label class="input-label">ชื่อไฟล์</label>
+            <input class="input" id="upload-name" type="text" placeholder="ชื่อที่จะแสดงในระบบ" />
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="input-group">
+              <label class="input-label">ปี</label>
+              <select class="input" id="upload-year">
+                <option value="1">ปี 1</option>
+                <option value="2">ปี 2</option>
+                <option value="3">ปี 3</option>
+                <option value="4">ปี 4</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label class="input-label">หมวดหมู่</label>
+              <select class="input" id="upload-category">
+                <option value="lecture">บรรยาย</option>
+                <option value="lab">แลป</option>
+                <option value="midterm">กลางภาค</option>
+                <option value="final">ปลายภาค</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">รายวิชา</label>
+            <input class="input" id="upload-subject" type="text" placeholder="เช่น CPE 100, Data Structures" />
+          </div>
+        </div>
+
+        <div class="progress-bar mt-4" id="upload-progress-bar" style="display:none">
+          <div class="progress-fill" id="upload-progress-fill" style="width:0%"></div>
+        </div>
+
+        <div class="flex gap-2 mt-4" style="justify-content:flex-end">
+          <button class="btn btn-ghost" onclick="UI.closeModal('upload-modal')">ยกเลิก</button>
+          <button class="btn btn-primary" id="upload-submit-btn">⬆️ Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rename Modal -->
+  <div class="modal" id="rename-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">✏️ เปลี่ยนชื่อไฟล์</div>
+        <button class="btn-icon" onclick="UI.closeModal('rename-modal')">✕</button>
+      </div>
+      <div class="input-group">
+        <label class="input-label">ชื่อใหม่</label>
+        <input class="input" id="rename-input" type="text" />
+      </div>
+      <input type="hidden" id="rename-file-id" />
+      <div class="flex gap-2 mt-4" style="justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="UI.closeModal('rename-modal')">ยกเลิก</button>
+        <button class="btn btn-primary" id="rename-submit-btn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal" id="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="user-modal-title">➕ เพิ่มผู้ใช้</div>
+        <button class="btn-icon" onclick="UI.closeModal('user-modal')">✕</button>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div class="input-group">
+          <label class="input-label">รหัสนักศึกษา</label>
+          <input class="input" id="um-student-id" type="text" placeholder="65090500001" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">ชื่อ-นามสกุล</label>
+          <input class="input" id="um-name" type="text" placeholder="ชื่อผู้ใช้" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">รหัสผ่าน</label>
+          <input class="input" id="um-password" type="password" placeholder="รหัสผ่าน" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">สิทธิ์</label>
+          <select class="input" id="um-role">
+            <option value="junior">Junior (รุ่นน้อง)</option>
+            <option value="senior">Senior (รุ่นพี่/Admin)</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4" style="justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="UI.closeModal('user-modal')">ยกเลิก</button>
+        <button class="btn btn-primary" id="user-submit-btn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div class="modal" id="announce-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">📢 สร้างประกาศ</div>
+        <button class="btn-icon" onclick="UI.closeModal('announce-modal')">✕</button>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div class="input-group">
+          <label class="input-label">หัวข้อ</label>
+          <input class="input" id="ann-title" type="text" placeholder="หัวข้อประกาศ" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">เนื้อหา</label>
+          <textarea class="input" id="ann-body" rows="4" placeholder="เนื้อหาประกาศ..."></textarea>
+        </div>
+      </div>
+      <div class="flex gap-2 mt-4" style="justify-content:flex-end">
+        <button class="btn btn-ghost" onclick="UI.closeModal('announce-modal')">ยกเลิก</button>
+        <button class="btn btn-primary" id="announce-submit-btn">ประกาศ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="public/js/config.js"></script>
+  <script src="public/js/ui.js"></script>
+  <script src="public/js/auth.js"></script>
+  <script src="public/js/drive.js"></script>
+  <script src="public/js/app.js"></script>
+  <script src="public/js/components/profile-menu.js"></script>
+  <script src="public/js/pages/admin.js"></script>
+</body>
+</html>
